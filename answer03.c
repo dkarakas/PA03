@@ -240,7 +240,58 @@ int DFS_shortest_path_directions(char *mazefile, char *directionfile,
 int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
                       Coord source, Coord destination)
 {
-   return -1;
+  //VARIABLES
+  FILE *fptr_mazefile; 
+  FILE *fptr_directionfile;
+  int nrow, ncol;
+  Maze *maze_array_input;
+
+  //ACTUAL CODE
+  if(mazefile == NULL || directionfile == NULL){
+    fprintf(stderr,"Either mazefile or direction file was not given");
+    return -1;
+  }
+
+  //openning the file
+  fptr_mazefile = fopen(mazefile,"r");
+  if(fptr_mazefile == NULL){
+    fprintf(stderr,"Can't open mazefile for reading");
+    return -1;
+  }
+  
+  //finding dimensions and allocating space for the array
+  //Then putting the file into the array
+  
+  Find_maze_dimensions(fptr_mazefile, &nrow, &ncol);
+  maze_array_input = Allocate_maze_space(nrow, ncol);
+  if(maze_array_input == NULL){
+    fclose(fptr_mazefile);
+    fprintf(stderr,"Can't allocate enough memory for maze");
+    return -1;
+  }
+  Write_maze_to_2Dfile(fptr_mazefile,maze_array_input);
+
+  //openning dierectional file
+  fptr_directionfile = fopen(directionfile,"r");
+  if(fptr_directionfile == NULL){
+    fclose(fptr_mazefile);
+    Deallocate_maze_space(maze_array_input);
+    fprintf(stderr,"Can't open mazefile for reading");
+    return -1;
+  }
+  
+  //Checking if source or destination are valid.
+  if( nrow <= source.row || ncol <= source.col ||
+      nrow <= destination.row || ncol <= destination.col ||
+      (get_loc_type(fptr_mazefile, source.row, source.col) != PATH) ||
+      (get_loc_type(fptr_mazefile, destination.row, destination.col) != PATH)){
+    fclose(fptr_directionfile);
+    fclose(fptr_mazefile);
+    Deallocate_maze_space(maze_array_input);
+    fprintf(stderr,"Invalid source or destination");
+    return -1;
+  }
+
 }
 
 

@@ -252,6 +252,7 @@ with the 'S' direction because an invalid location is in the 'N' direction
 us to explore in the 'N', 'S', and 'W', directions (see part (3)), but none 
 of them would allow us to reach the bottom exit.  
 
+
 The recursion will now find its way back to location (9,7), and we would 
 now explore in the 'E' direction.  When we reach (7,11) (see part (4)) in 
 a distance of 25 steps from the source, we would explore the 'N' direction
@@ -355,24 +356,24 @@ the second one is a directions file.  The third one should be used to print
 the visited maze (visitedfile).  Two locations (as Coord's) are also given 
 to the function.  They are the source location and the destination location.
 
-If the maze file does not exist, you should exit the function
-and return -1.
+//If the maze file does not exist, you should exit the function
+//and return -1.
 
-If the maze file exists, you are to assume that the maze is either generated 
-from amaze.c, the program from Henry Kroll that is given to you in PE07 or 
-expanded from such a maze in PE08.  
+//If the maze file exists, you are to assume that the maze is either generated 
+//from amaze.c, the program from Henry Kroll that is given to you in PE07 or 
+//expanded from such a maze in PE08.  
 
-If you can't allocate memory to store the maze, you should exit the 
-function and return -1.  
+//If you can't allocate memory to store the maze, you should exit the 
+//function and return -1.  
 
-If the direction file does not exist, you should exit the
-the function and return -1.
+//If the direction file does not exist, you should exit the
+//the function and return -1.
 
-If the source and destination locations are invalid (not in the
-range and not a PATH), you should exit the function and return -1. 
+//If the source and destination locations are invalid (not in the
+//range and not a PATH), you should exit the function and return -1. 
 
-When you return -1 from the function because of the aforemented reason,
-the output file for the visited maze (i.e., visitedfile) should not be created.
+//When you return -1 from the function because of the aforemented reason,
+//the output file for the visited maze (i.e., visitedfile) should not be created.
 
 The following applies when the maze file, directions file exist,
 and the source and destination locations are valid.  
