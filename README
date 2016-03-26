@@ -351,10 +351,10 @@ directions to the directions file.
 
 // ~ Simulate_movement function ~ //
 
-Three filenames are given to the function:  The first one is the given maze,
-the second one is a directions file.  The third one should be used to print
-the visited maze (visitedfile).  Two locations (as Coord's) are also given 
-to the function.  They are the source location and the destination location.
+//Three filenames are given to the function:  The first one is the given maze,
+//the second one is a directions file.  The third one should be used to print
+//the visited maze (visitedfile).  Two locations (as Coord's) are also given 
+//to the function.  They are the source location and the destination location.
 
 //If the maze file does not exist, you should exit the function
 //and return -1.
@@ -478,19 +478,19 @@ If not, the executable should exit with EXIT_FAILURE.
 //the returned value of the simulation function with the following
 //printf format: "%d\n".
 
-If the "-m" is the first argument to the executable, it means that 
-you should determine the directions for the agent.  The following arguments,
-in order, should be the maze file, the directions file for storing the
-directions computed by your function, and the row-column coordinates
-of the source and destination locations (see the description in
-the "-s" option).  You call the shortest-path function to determine the 
-directions only if you have sufficient arguments and that the coordinates
-are integers converted from strings with only valid symbols.  Otherwise, 
-you should exit with EXIT_FAILURE.
+//If the "-m" is the first argument to the executable, it means that 
+//you should determine the directions for the agent.  The following arguments,
+//in order, should be the maze file, the directions file for storing the
+//directions computed by your function, and the row-column coordinates
+//of the source and destination locations (see the description in
+//the "-s" option).  You call the shortest-path function to determine the 
+//directions only if you have sufficient arguments and that the coordinates
+//are integers converted from strings with only valid symbols.  Otherwise, 
+//you should exit with EXIT_FAILURE.
 
-Immediately after the shortest-path function, you should print to stdout
-the returned value of the shortest-path function with the following
-printf format: "%d\n".
+//Immediately after the shortest-path function, you should print to stdout
+//the returned value of the shortest-path function with the following
+//printf format: "%d\n".
 
 The following command has been used to generate sample5.dir:
 
@@ -499,20 +499,20 @@ The following command has been used to generate sample5.dir:
 
 The program should print 22 to the screen.
 
-Note that you should write the simulation function before the
-shortest-path function.  In a sense, the simulation function helps to
-test whether your shortest-pathh function is partially correct.  The main 
-function is designed to help you to write a useful function (like the 
-shortest-path function) and a testing function (like the simulation function).
+//Note that you should write the simulation function before the
+//shortest-path function.  In a sense, the simulation function helps to
+//test whether your shortest-pathh function is partially correct.  The main 
+//function is designed to help you to write a useful function (like the 
+//shortest-path function) and a testing function (like the simulation function).
 
-Note that the only two functions defined in answer03.c 
-that would be called by the main functions are the two functions
-declared in answer03.h.  
+//Note that the only two functions defined in answer03.c 
+//that would be called by the main functions are the two functions
+//declared in answer03.h.  
 
-In the pa03.c provided to you, we use option "-t" to call the function
-Find_path_from_top_entrance_to_bottom_exit.  You may remove this part
-of the program in your final submission, or you may keep it.  We will not
-evaluate your program with the "-t" option.
+//In the pa03.c provided to you, we use option "-t" to call the function
+//Find_path_from_top_entrance_to_bottom_exit.  You may remove this part
+//of the program in your final submission, or you may keep it.  We will not
+//evaluate your program with the "-t" option.
 
 // ~ WARNINGS ~ //
 

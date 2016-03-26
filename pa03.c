@@ -80,9 +80,39 @@ int main(int argc, char* argv[])
      int step_count = Simulate_movement(argv[2],argv[3], argv[4],
                                         source, destination);
      printf("%d\n", step_count); 
-   } else if(strcmp("-m", argv[2]) ==0){}
+   } else if(strcmp("-m", argv[1]) ==0){
+     if (argc != 8)
+        return EXIT_FAILURE; 
+     Coord source;
+     Coord destination;
+     errno = 0;
+     char * endptr; 
+     source.row = strtol(argv[4],&endptr,10);
+     if(*endptr != '\0'|| (errno != 0 && source.row ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+     source.col = strtol(argv[5],&endptr,10);
+     if(*endptr != '\0' || (errno != 0 && source.col ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+     destination.row= strtol(argv[6],&endptr,10);
+     if(*endptr != '\0'|| (errno != 0 && destination.row ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+     destination.col = strtol(argv[7],&endptr,10);
+     if(*endptr != '\0'|| (errno != 0 && destination.col ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+ 
 
-    else{
+      int shortest_path = DFS_shortest_path_directions(argv[1],argv[2],source,destination);
+ 
+      printf("%d\n", shortest_path); 
+    }else{
       return EXIT_FAILURE;
    }
 
