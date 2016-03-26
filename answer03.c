@@ -4,12 +4,12 @@
 #include "answer03.h"
 
 //inserted functions from previous pes.
-char get_loc_type(FILE* fptr, int row, int col);
-Maze *Allocate_maze_space(int nrow, int ncol);
-void Deallocate_maze_space(Maze *maze);
-Maze *Read_maze_from_2Dfile(FILE *fptr);
-int Write_maze_to_2Dfile(char *filename, const Maze *maze);
-
+char get_loc_type(FILE* fptr, int row, int col);			//not used
+Maze *Allocate_maze_space(int nrow, int ncol);				//not used
+void Deallocate_maze_space(Maze *maze);					//not used
+Maze *Read_maze_from_2Dfile(FILE *fptr);				//not used
+int Write_maze_to_2Dfile(char *filename, const Maze *maze);		//not used
+void Find_maze_dimensions(FILE *fptr, int *nrow, int *ncol);		//not used
 
 
 
@@ -363,3 +363,30 @@ int Write_maze_to_2Dfile(char *filename, const Maze *maze)
   fclose(outputFILE);
   return wordCount;
 }
+
+void Find_maze_dimensions(FILE *fptr, int *nrow, int *ncol)
+{
+   fseek(fptr,0,SEEK_SET);
+   *nrow = *ncol = 0;
+   char ch;
+
+   while((ch=fgetc(fptr)) != EOF){
+    if(ch=='\n')
+      (*nrow)++;
+    if(*nrow==0)
+      (*ncol)++;
+   }
+  return;
+}
+
+int Find_opening_location(FILE *fptr)
+{
+   fseek(fptr,0,SEEK_SET);
+   int col = 0;
+   char ch;
+   while((ch = fgetc(fptr))!=' '){
+    col++;
+   }
+   return col;
+}
+
