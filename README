@@ -411,72 +411,72 @@ to the function.  They are the source location and the destination location.
 //Before you exit the function, you should always close all files you 
 //have opened and free all memory you have allocated.
 
-For sample5 and directions file sample5.dir (sample5.dir2), integer 23 
-is returned by the Simulate_movement  function.  The file storing the
-visited maze is sample5.dir.visited (sample5.dir2.visited).
+//For sample5 and directions file sample5.dir (sample5.dir2), integer 23 
+//is returned by the Simulate_movement  function.  The file storing the
+//visited maze is sample5.dir.visited (sample5.dir2.visited).
 
 // ~ main function ~//
 
 The main function expects "-s" or "-m" to supplied as argv[1].
 If not, the executable should exit with EXIT_FAILURE.
 
-If the "-s" is the first argument to the executable, it means that
-you should perform simulation to verify that the agent can reach the
-destination using the directions provided.  We expect 7 arguments to follow 
-the "-s" option.  The arguments, in order, should be the maze file, the 
-directions file, and the output file for the visited maze, the row and 
-column coordinates of the source location and the row and column coordinates 
-of the destination location.  You call the simulation function
-only if you have sufficient arguments.  Also, you have to perform
-string-to-integer conversions of the last 4 arguments into
-source and destination coordinates.  We suggest that you use 
-strtol to perform the conversion and use the second parameter
-of strtol to check whether the string being converted contains
-only valid symbols for an integer (base 10).  You call
-the simulation function only if the source and destination coordinates
-are integers converted from strings that contain only valid symbols.
-Otherwise, you should exit with EXIT_FAILURE.
+//If the "-s" is the first argument to the executable, it means that
+//you should perform simulation to verify that the agent can reach the
+//destination using the directions provided.  We expect 7 arguments to follow 
+//the "-s" option.  The arguments, in order, should be the maze file, the 
+//directions file, and the output file for the visited maze, the row and 
+//column coordinates of the source location and the row and column coordinates 
+//of the destination location.  You call the simulation function
+//only if you have sufficient arguments.  Also, you have to perform
+//string-to-integer conversions of the last 4 arguments into
+//source and destination coordinates.  We suggest that you use 
+//strtol to perform the conversion and use the second parameter
+//of strtol to check whether the string being converted contains
+//only valid symbols for an integer (base 10).  You call
+//the simulation function only if the source and destination coordinates
+//are integers converted from strings that contain only valid symbols.
+//Otherwise, you should exit with EXIT_FAILURE.
 
-For example, when the following command is issued
+//For example, when the following command is issued
 
-> ./pa03 -s mazefile directionsfile visitedfile 5 0 10 101
+//> ./pa03 -s mazefile directionsfile visitedfile 5 0 10 101
 
-where 5 and 0 are the row and column coordinates
-of the source location, respectively, and 10 and 101 are the
-row and column coordinates of the destination location,   
-the simulation function should be called.  
+//where 5 and 0 are the row and column coordinates
+//of the source location, respectively, and 10 and 101 are the
+//row and column coordinates of the destination location,   
+//the simulation function should be called.  
 
-Note that it is the role of the simulation function to check whether the 
-coordinates are valid for the input mazefile.  
+//Note that it is the role of the simulation function to check whether the 
+//coordinates are valid for the input mazefile.  
 
-The following commands are used to produced sample5.dir.visited, 
-sample5.dir2.visited, sample5.tdir.visited, respectively:
+//The following commands are used to produced sample5.dir.visited, 
+//sample5.dir2.visited, sample5.tdir.visited, respectively:
 
-> ./pa03 -s sample5 sample5.tdir sample5.tdir.visited 0 5 12 11
-39
-> ./pa03 -s sample5 sample5.dir sample5.dir.visited 0 5 12 11
-23
-> ./pa03 -s sample5 sample5.dir2 sample5.dir2.visited 0 5 12 11
-23
+//> ./pa03 -s sample5 sample5.tdir sample5.tdir.visited 0 5 12 11
+//39
+//> ./pa03 -s sample5 sample5.dir sample5.dir.visited 0 5 12 11
+//23
+//> ./pa03 -s sample5 sample5.dir2 sample5.dir2.visited 0 5 12 11
+//23
 
-The screen output are 39, 23, and 23, respectively.
+//The screen output are 39, 23, and 23, respectively.
 
-The following command
+//The following command
 
-> ./pa03 -s mazefile directionsfile visitedfile 5 0abc 10 101
+//> ./pa03 -s mazefile directionsfile visitedfile 5 0abc 10 101
 
-will not result in the calling of the simulation function because
-one of last four arguments is a string with invalid symbols.
+//will not result in the calling of the simulation function because
+//one of last four arguments is a string with invalid symbols.
 
-(We have covered the function strtol in stdlib.h in lectures and they
-have appeared in the sample programs provided by the instructors and also 
-in PE04.  If you cannot recall the details, please google "man strtol" or 
-use the command "man strtol".  There are examples toward the end of the 
-manual page to show you how to use strtol.)
+//(We have covered the function strtol in stdlib.h in lectures and they
+//have appeared in the sample programs provided by the instructors and also 
+//in PE04.  If you cannot recall the details, please google "man strtol" or 
+//use the command "man strtol".  There are examples toward the end of the 
+//manual page to show you how to use strtol.)
 
-Immediately after the simulation, you should print to stdout
-the returned value of the simulation function with the following
-printf format: "%d\n".
+//Immediately after the simulation, you should print to stdout
+//the returned value of the simulation function with the following
+//printf format: "%d\n".
 
 If the "-m" is the first argument to the executable, it means that 
 you should determine the directions for the agent.  The following arguments,

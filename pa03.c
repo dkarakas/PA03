@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
        return EXIT_FAILURE;
    }
 
-  
+   ///get rid of this after I am done 
    if (strcmp("-t", argv[1]) == 0) {
       if (argc != 5) { 
          return EXIT_FAILURE; 

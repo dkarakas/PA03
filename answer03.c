@@ -305,8 +305,8 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   //north (up), south (down), east (right), west (left)
   while((ch = getc(fptr_directionfile)) != EOF){
      if(ch == 'N'){
-       cur_row++;
-
+       cur_row--;
+     
        if( nrow <= cur_row || ncol <= cur_col || (cur_row < 0) || (cur_col < 0)){
          Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
@@ -328,8 +328,8 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
         maze_array_input->maze_array[cur_row][cur_col] = VISITED; 
 
      } else if(ch == 'S'){
-       cur_row--;
-
+       cur_row++;
+       //fprintf(stderr,"cur_row %d cur_col %d", cur_row, cur_col);
        if( (nrow <= cur_row) || (ncol <= cur_col) || (cur_row < 0) || (cur_col < 0)){
          Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
@@ -408,6 +408,7 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   }
   
   if(cur_row == destination.row && cur_col == destination.col){
+         fprintf(stderr,"are %c the %c end %c \n",maze_array_input->maze_array[0][0],maze_array_input->maze_array[0][1],maze_array_input->maze_array[1][5]);
     Write_maze_to_2Dfile(visitedfile,maze_array_input);
     fclose(fptr_directionfile);
     fclose(fptr_mazefile);
@@ -528,8 +529,8 @@ int Write_maze_to_2Dfile(char *filename, const Maze *maze)
 {
   int wordCount = 0;
   FILE* outputFILE;
-  int printed_char;
-  outputFILE = fopen(filename, "w");
+  //int printed_char;
+  outputFILE = fopen(filename, "w+");
   if(outputFILE == NULL){
     fprintf(stderr,"There is a problem opening the visitedfile");
     return -1;
@@ -538,14 +539,15 @@ int Write_maze_to_2Dfile(char *filename, const Maze *maze)
   int j;
   for(i = 0; i < maze->nrow; i++){
     for(j = 0; j < (maze->ncol+1); j++){
-      if(maze->ncol != maze->ncol){
-        if((printed_char = fprintf(outputFILE,"%c",maze->maze_array[i][j])) != 1){
+      if(j != maze->ncol){
+        /*if((printed_char = fprintf(outputFILE,"%c",maze->maze_array[i][j])) != 1){
           fprintf(stderr,"Wrong number(%d) of chars printed in visitedfile",printed_char);
           if(printed_char == 0){
             fclose(outputFILE);
             return -1;
           }
-        }
+        }*/
+        fprintf(outputFILE,"%c",maze->maze_array[i][j]);
       }
       else
         fprintf(outputFILE,"\n");
