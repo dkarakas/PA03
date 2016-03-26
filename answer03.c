@@ -3,6 +3,16 @@
 #include <limits.h>
 #include "answer03.h"
 
+//inserted functions from previous pes.
+char get_loc_type(FILE* fptr, int row, int col);
+Maze *Allocate_maze_space(int nrow, int ncol);
+void Deallocate_maze_space(Maze *maze);
+Maze *Read_maze_from_2Dfile(FILE *fptr);
+int Write_maze_to_2Dfile(char *filename, const Maze *maze);
+
+
+
+
 /* given a maze, given a location cur, is that PATH */
 /* if out of bound, return 0                        */
 /* if within bound, but not PATH, return 0          */
@@ -233,3 +243,123 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
    return -1;
 }
 
+
+
+
+// Inserted functions from previous pes.
+
+char get_loc_type(FILE* fptr, int row, int col){
+  fseek(fptr,0,SEEK_SET);
+  char ch;
+  char char_ret;
+  int cur_row = 0;
+  if(row == 0){
+    fseek(fptr,col,SEEK_CUR);
+    return fgetc(fptr);
+  }
+  else{
+    while((ch=fgetc(fptr))!=EOF){
+      if(ch=='\n')
+         cur_row++;
+      if(cur_row == row){
+        fseek(fptr,col,SEEK_CUR);
+        char_ret = fgetc(fptr);
+        fseek(fptr,0,SEEK_END);
+      }
+    }
+  }
+  return char_ret;
+}
+
+Maze *Allocate_maze_space(int nrow, int ncol)
+{
+  Maze *pointerMaze;
+  pointerMaze = malloc(sizeof(Maze));
+  if(pointerMaze == NULL)
+    return NULL;
+  else{
+    pointerMaze->nrow = nrow;
+    pointerMaze->ncol = ncol;
+    pointerMaze->maze_array = malloc(sizeof(char *) * nrow);
+    if(pointerMaze->maze_array == NULL){
+      free(pointerMaze);
+      return NULL;
+    }
+    int i;
+    for(i=0;i<nrow;i++){
+      pointerMaze->maze_array[i] = malloc(sizeof(char) * ncol);
+      if(pointerMaze->maze_array[i] == NULL){
+        int j;
+	for(j = i; j>=0; j--)
+	  free(pointerMaze->maze_array[j]);
+        free(pointerMaze->maze_array);
+	free(pointerMaze);
+	return NULL;	  
+      }  
+    }
+  }
+  return pointerMaze;    
+}
+
+void Deallocate_maze_space(Maze *maze)
+{
+   int i;
+   if(maze == NULL)
+     return;
+   for(i=0; i < (maze->nrow);i++)
+     free(maze->maze_array[i]);
+   free(maze->maze_array);
+   free(maze);   
+   return;
+}
+
+Maze *Read_maze_from_2Dfile(FILE *fptr)
+{
+  fseek(fptr,0,SEEK_SET);
+  int nrow = 0;
+  int ncol = 0;
+  char ch;
+  while((ch=fgetc(fptr)) != EOF){
+    if(ch=='\n')
+      nrow++;
+    if(nrow==0)
+      ncol++;
+  }
+  Maze *pointerMaze = Allocate_maze_space(nrow,ncol);
+  if(pointerMaze == NULL){
+    Deallocate_maze_space(pointerMaze);
+    return NULL;  
+  }
+  else{ 
+    int i;   
+    int j;
+    fseek(fptr,0,SEEK_SET);
+    for(i = 0; i < nrow; i++){
+      for(j = 0; j < ncol; j++){
+        ch = get_loc_type(fptr,i,j);
+          pointerMaze->maze_array[i][j] = ch;
+      }
+    } 
+  }
+  return pointerMaze;
+}
+
+int Write_maze_to_2Dfile(char *filename, const Maze *maze)
+{
+  int wordCount = 0;
+  FILE* outputFILE;
+  outputFILE = fopen(filename, "w");
+  int i;
+  int j;
+  for(i = 0; i < maze->nrow; i++){
+    for(j = 0; j < (maze->ncol+1); j++){
+      if(maze->ncol != maze->ncol)
+        fprintf(outputFILE,"%c",maze->maze_array[i][j]);
+      else
+        fprintf(outputFILE,"\n");
+      wordCount++;
+    }
+  }
+  fclose(outputFILE);
+  return wordCount;
+}
