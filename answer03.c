@@ -4,13 +4,24 @@
 #include "answer03.h"
 
 //inserted functions from previous pes.
-char get_loc_type(FILE* fptr, int row, int col);			//not used
-Maze *Allocate_maze_space(int nrow, int ncol);				//not used
-void Deallocate_maze_space(Maze *maze);					//not used
-Maze *Read_maze_from_2Dfile(FILE *fptr);				//not used
-int Write_maze_to_2Dfile(char *filename, const Maze *maze);		//not used
-void Find_maze_dimensions(FILE *fptr, int *nrow, int *ncol);		//not used
+char get_loc_type(FILE* fptr, int row, int col);			//used
+Maze *Allocate_maze_space(int nrow, int ncol);				//used
+void Deallocate_maze_space(Maze *maze);					//used
+Maze *Read_maze_from_2Dfile(FILE *fptr);				//used
+int Write_maze_to_2Dfile(char *filename, const Maze *maze);		//used
+void Find_maze_dimensions(FILE *fptr, int *nrow, int *ncol);		//used
 
+//linked list for shortest path
+typedef struct _ln_char{
+  struct ln_char *next_char = NULL;
+  char ch;
+}node_path;
+
+node_path *ln_construct(char ch);
+node_path *ln_insert(node_path **current_list , char ch);
+void ln_path_destroy(node_path);
+node_path *rmv_one_step(node_path **list);
+node_path *ln_copy(node_path *current_list);
 
 
 /* given a maze, given a location cur, is that PATH */
@@ -28,6 +39,61 @@ static int Is_path(Maze *maze, int row, int col)
    return 0;
 }
 
+static int Pathfinder_helper_dimcho(Maze *maze, int curr, int curc, int endr, int endc,
+                            int count, FILE *dfptr)
+{
+   // you may uncomment this and use the output here to trace the function
+   // with sample5.pdf
+   fprintf(stderr,"(%d, %d), %d\n", curr, curc, count);
+   maze->maze_array[curr][curc] = VISITED;
+   if ((curr == endr) && (curc == endc)) { // reach the destination 
+      int i;
+      for (i = 0; i < count; i++) { // create enough space in file
+         fputc(VISITED, dfptr);
+      }
+      return count;
+   }
+
+   int found;
+   if (Is_path(maze, curr-1, curc)) {
+      found = Pathfinder_helper(maze, curr-1, curc, endr, endc, count+1, dfptr);
+      if (found != -1) {
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         fputc('N', dfptr);
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         return found;
+      }
+   }
+   if (Is_path(maze, curr+1, curc)) {
+      found = Pathfinder_helper(maze, curr+1, curc, endr, endc, count+1, dfptr);
+      if (found != -1) {
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         fputc('S', dfptr);
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         return found;
+      }
+   }
+   if (Is_path(maze, curr, curc+1)) {
+      found = Pathfinder_helper(maze, curr, curc+1, endr, endc, count+1, dfptr);
+      if (found != -1) {
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         fputc('E', dfptr);
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         return found;
+      }
+   }
+   if (Is_path(maze, curr, curc-1)) {
+      found = Pathfinder_helper(maze, curr, curc-1, endr, endc, count+1, dfptr);
+      if (found != -1) {
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         fputc('W', dfptr);
+         fseek(dfptr, -1, SEEK_CUR); // go back one position
+         return found;
+      }
+   }
+   return -1;
+}
+
 /* given a maze, current row (curr),                                     */
 /* current column (curc), destination row (drow), destination col (dcol) */
 /* current distance from source, determine the where to explore from the */
@@ -41,7 +107,7 @@ static int Pathfinder_helper(Maze *maze, int curr, int curc, int endr, int endc,
 {
    // you may uncomment this and use the output here to trace the function
    // with sample5.pdf
-   // printf("(%d, %d), %d\n", curr, curc, count);
+   fprintf(stderr,"(%d, %d), %d\n", curr, curc, count);
    maze->maze_array[curr][curc] = VISITED;
    if ((curr == endr) && (curc == endc)) { // reach the destination 
       int i;
@@ -169,7 +235,6 @@ int Find_path_from_top_entrance_to_bottom_exit(char *mazefile, char *directionfi
    return steps;
 }
 
-/* Details of the function can be found in README                        */
 /* this function expects four parameters: two filenames, and coordinates */
 /* of two locations                                                      */
 /* two filenames: first one is a given maze, the second one is to        */
@@ -200,43 +265,71 @@ int Find_path_from_top_entrance_to_bottom_exit(char *mazefile, char *directionfi
 int DFS_shortest_path_directions(char *mazefile, char *directionfile,
                         Coord source, Coord destination)
 {
-   return -1;
+  //VARIABLES
+  FILE *fptr_mazefile; 
+  FILE *fptr_directionfile;
+  int nrow, ncol;
+  Maze *maze_array_input;
+  //char ch;
+  //int cur_row, cur_col;
+  char** linked_current_samllest_path;
+  char** current_path; 
+  
+  int loc_visited = 1;
+
+  //ACTUAL CODE
+  if(mazefile == NULL || directionfile == NULL ){
+    fprintf(stderr,"Either mazefile or directionfile or was not given");
+    return -1;
+  }
+
+  //openning the file
+  fptr_mazefile = fopen(mazefile,"r");
+  if(fptr_mazefile == NULL){
+    fprintf(stderr,"Can't open mazefile for reading ");
+    return -1;
+  }
+  
+  //finding dimensions and allocating space for the array
+  //Then putting the file into the array
+  
+  Find_maze_dimensions(fptr_mazefile, &nrow, &ncol);
+  maze_array_input = Read_maze_from_2Dfile(fptr_mazefile);
+  if(maze_array_input == NULL){
+    fclose(fptr_mazefile);
+    fprintf(stderr,"Can't allocate enough memory for maze");
+    return -1;
+  }
+  
+  //Checking if source or destination are valid.
+  if( nrow <= source.row || ncol <= source.col ||
+      nrow <= destination.row || ncol <= destination.col ||
+      source.row < 0 || source.col < 0 ||
+      destination.row < 0 || destination.col<0 ||
+      (get_loc_type(fptr_mazefile, source.row, source.col) != PATH) ||
+      (get_loc_type(fptr_mazefile, destination.row, destination.col) != PATH)){
+    fclose(fptr_mazefile);
+    Deallocate_maze_space(maze_array_input);
+    fprintf(stderr,"Invalid source or destination\n");
+    return -1;
+  }
+  
+  //openning directional file
+  fptr_directionfile = fopen(directionfile,"w");
+  if(fptr_directionfile == NULL){
+    fclose(fptr_mazefile);
+    Deallocate_maze_space(maze_array_input);
+    fprintf(stderr,"Can't open directional file for writing ");
+    return -1;
+  }
+  loc_visited = Pathfinder_helper_dimcho();
+  Write_maze_to_2Dfile(visitedfile, maze);
+  fclose(fptr_directionfile);
+  fclose(fptr_mazefile);
+  Deallocate_maze_space(maze_array_input);
+  return loc_visited;
 }
 
-/* Details of the function can be found in README                        */
-/* this function expects 5 parameters: 3 filenames, and coordinates of   */
-/* the source and destination locations                                  */
-/* three filenames: first one is a given maze, the second one is a       */
-/* directions file (a series of characters 'N', 'S', 'E', 'W'), you are  */
-/* to simulate the movement of agent according to the directions         */
-/* given in the direction files. The maze showing the locations that the */
-/* agent has visited will be stored in the third file.                   */
-/* the source and destination coordinates are the starting and end points*/
-/* of the agent's path in the maze                                       */
-/*                                                                       */
-/* If the maze file does not exist, you should immediately return -1 and */
-/* do nothing else                                                       */
-/* If the maze file cannot be read into a Maze structure, you should     */
-/* immediately return -1 and do nothing else                             */
-/* If the direction file does not exist, you should immediately return   */
-/* -1 and do nothing else                                                */
-/* if the coordinates are not valid, you should immediately return -1    */
-/* and do nothing else                                                   */
-/* Otherwise, it means that the agent has been airdropped to the starting*/
-/* and the starting location has been visited                            */
-/* You should simulate until you reach the end of file of the direction  */
-/* file or encounter an invalid direction                                */
-/* you should print the visited maze into the third given filename, the  */
-/* visitedfile, with visited locations represented by '.'                */
-/* if you encounter an invalid direction (wrong character, try to visit  */
-/* a location with WALL, try to visit a location again, try to move the  */
-/* agent out of bound), you should return -1                             */
-/* do not change a location with WALL to a VISITED location              */
-/* If the agent successfully reach the final destination with valid      */
-/* directions in the direction file, and the visited maze can be output  */
-/* properly, you should return the number of visited locations,          */
-/* otherwise, return -1                                                  */
-/* you may assume that the maze file, if it exists, is in correct format */
 int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
                       Coord source, Coord destination)
 {
@@ -267,12 +360,12 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   
   Find_maze_dimensions(fptr_mazefile, &nrow, &ncol);
   //maze_array_input = Allocate_maze_space(nrow, ncol);
-  /*if(maze_array_input == NULL){
+  maze_array_input = Read_maze_from_2Dfile(fptr_mazefile);
+  if(maze_array_input == NULL){
     fclose(fptr_mazefile);
     fprintf(stderr,"Can't allocate enough memory for maze");
     return -1;
-  }*/
-  maze_array_input = Read_maze_from_2Dfile(fptr_mazefile);
+  }
 
   //openning dierectional file
   fptr_directionfile = fopen(directionfile,"r");
@@ -582,5 +675,68 @@ int Find_opening_location(FILE *fptr)
     col++;
    }
    return col;
+}
+
+node_path *ln_construct(char ch){
+  node_path * new_node = (node_char *) malloc(sizeof(node_path));
+  if(new_node == NULL){
+    fprintf(stderr,"Failure to create new node in list");
+    return NULL;
+  }
+  
+  new_node->next_char = NULL;
+  new_node->ch = ch;
+  return new_node;
+}
+
+
+node_path *ln_insert(node_path **current_list , char ch){
+  node_path *new_node_to_insert = ln_construct(ch);
+  if(new_node_to_inster == NULL){
+    fprintf(stderr,"Malloc fail!");
+    return NULL;
+  }
+  
+  new_node_to_insert->next_char = *current_list;
+  *current_list = new_node;
+  return *current_list;
+}
+
+void ln_path_destroy(node_path *head){
+  node_path *tmp = head; 
+  while(head != NULL){
+    tmp = head->next_char;
+    free(head);
+    head = tmp; 
+  }
+}
+//Returns the pointer to the list with a removed char
+node_path *rmv_one_step(node_path **list){
+  if(list = NULL){
+    fprintf(stderr,"error removing step");
+    return NULL;
+  }
+  
+  node_path *removed_char = *list;
+  *list = removed_char->next_char;
+  removed_char->next_char=NULL;
+  ln_path_destory(removed_char);    
+  return *list;
+}
+
+node_path *ln_copy(node_path *current_list){
+  current_path * next = current_list;
+  current_path * new;
+  if(current_list == 0){
+    frpirntf(stderr,"Error copying linked_list");
+    return NULL
+  }
+  new = node_path *ln_construct(next->ch);
+  next = next -> next_char;
+  while(next = NULL){
+    new = ln_insert(&new,next->ch);
+    next = next->next_char;
+  }
+  return new;
 }
 

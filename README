@@ -1,9 +1,9 @@
 // ~ Overview ~ //
 
-This assignment will familiarize you with 2-dimensional arrays and
-some more file operations.
+//This assignment will familiarize you with 2-dimensional arrays and
+//some more file operations.
 
-The README should be read together with the figures in sample5.pdf.
+//The README should be read together with the figures in sample5.pdf.
 
 // ~ Learning Goals ~ //
 
@@ -26,36 +26,36 @@ zip file through Blackboard.
 
 // ~ Overview ~ //
 
-This exercise will give you more practice with file operations,
-memory allocation, and recursions (if you model your solution
-after the code provided by the instructor in answer03.c).
+//This exercise will give you more practice with file operations,
+//memory allocation, and recursions (if you model your solution
+//after the code provided by the instructor in answer03.c).
 
-You are in charge of a special mission.  In particular, your
-job is to guide a special agent through a maze, beginning at some
-source location and reaching some destination location, taking a
-shortest path.
+//You are in charge of a special mission.  In particular, your
+//job is to guide a special agent through a maze, beginning at some
+//source location and reaching some destination location, taking a
+//shortest path.
 
-Based on a pre-processed satellite images of the maze, where the walls 
-of maze are stored as 'X' and the paths are stored as ' ', you want to 
-provide the directions that the special agent, who has been air-dropped
-to the source location within the maze, can take to reach the destination
-location with the shortest distance because time is critical.
+//Based on a pre-processed satellite images of the maze, where the walls 
+//of maze are stored as 'X' and the paths are stored as ' ', you want to 
+//provide the directions that the special agent, who has been air-dropped
+//to the source location within the maze, can take to reach the destination
+//location with the shortest distance because time is critical.
 
 In this exercise, you will write the following functions:
 
-(1) Given a file containing the satellite "image" of a rectangular
-maze, compute and store the directions to be taken by the agent
-to reach the destination location in the shortest distance, starting from a 
-source location.  The directions will be stored in a different file (12 points).
-(2) Given a file containing the satellite "image" of a rectangular
-maze, the directions to be taken by the special agent in another 
-file, simulate the moves of the agent, count the number of locations
-visited by the agent, and print an "image" representing the maze traversed
-by the agent (6 points).
-(3) The main function, which, depending on a user-given option, 
-calls the function in (1) or (2) accordingly. (2 points).
+//(1) Given a file containing the satellite "image" of a rectangular
+//maze, compute and store the directions to be taken by the agent
+//to reach the destination location in the shortest distance, starting from a 
+//source location.  The directions will be stored in a different file (12 points).
+//(2) Given a file containing the satellite "image" of a rectangular
+//maze, the directions to be taken by the special agent in another 
+//file, simulate the moves of the agent, count the number of locations
+//visited by the agent, and print an "image" representing the maze traversed
+//by the agent (6 points).
+//(3) The main function, which, depending on a user-given option, 
+//calls the function in (1) or (2) accordingly. (2 points).
 
-Details of these functions are provided below.
+//Details of these functions are provided below.
 
 // ~ Input file format ~ //
 
@@ -63,13 +63,14 @@ Just like in PE07 and PE08, we are concerned with only rectangular
 mazes.  The mazes that we would consider are the mazes that are
 produced by the program amaze.c or expanded by a program in PE08.
 
-You may assume that if a given file exists, it contains a valid maze.
+//You may assume that if a given file exists, it contains a valid maze.
 
 // ~ Output file format ~ //
 
-There are two files that you will output:  a file containing the 
-directions for the first function, and a file containing the visited
-maze for the second function.
+//There are two files that you will output:  a file containing the 
+//directions for the first function, and a file containing the visited
+//maze for the second function.
+
 
 For the directions file, it contains a stream of characters
 'N', 'S', 'E', 'W' (all upper case), which stand for the
@@ -84,84 +85,84 @@ shortest distance path from the source location (0,5) to the destination
 location (12,11) is in sample5.dir.  An alternative directions file is in 
 sample5.dir2.
 
-For the visited maze, the format is somewhat similar to an input file
-for a maze.  The difference is that that locations that have been visited
-along the path taken by the agent (in the simulation) should have the space 
-character ' ' (PATH) replaced by '.' (VISITED).  For the directions file 
-sample5.dir (or sample5.dir2), the path taken the agent is shown in 
-the file sample5.dir.visited (or sample5.dir2.visited).
+//For the visited maze, the format is somewhat similar to an input file
+//for a maze.  The difference is that that locations that have been visited
+//along the path taken by the agent (in the simulation) should have the space 
+//character ' ' (PATH) replaced by '.' (VISITED).  For the directions file 
+//sample5.dir (or sample5.dir2), the path taken the agent is shown in 
+//the file sample5.dir.visited (or sample5.dir2.visited).
 
 // ~ Functions to be written ~ // 
 
-In answer03.h, two functions are declared:
+//In answer03.h, two functions are declared:
 
-int DFS_shortest_path_directions(char *mazefile, char *directionfile,
+//int DFS_shortest_path_directions(char *mazefile, char *directionfile,
                         Coord source, Coord destination);
 
-int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
+//int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
                       Coord source, Coord destination);
 
-You have to define these two functions in answer03.c.
+//You have to define these two functions in answer03.c.
 
-There are many other functions that would be useful to your program.
-For example, the Allocate_maze_space and Deallocate_maze_space functions
-in PE08 are probably needed in this assignment.  You should go through 
-PE07 and PE08 to select the important functions that you want to include in 
-this assignment.  Moreover, you will probably need other functions, but we will
-not specify them here.  All these functions should be declared and defined 
-in answer03.c.  (Note that you cannot declare these additional functions
-in answer03.h because you are not submitting answer03.h.)  Note that a 
-function must be declared (the declaration states the return type and the 
-input parameters) before it is called by another function.  
+//There are many other functions that would be useful to your program.
+//For example, the Allocate_maze_space and Deallocate_maze_space functions
+//in PE08 are probably needed in this assignment.  You should go through 
+//PE07 and PE08 to select the important functions that you want to include in 
+//this assignment.  Moreover, you will probably need other functions, but we will
+//not specify them here.  All these functions should be declared and defined 
+//in answer03.c.  (Note that you cannot declare these additional functions
+//in answer03.h because you are not submitting answer03.h.)  Note that a 
+//function must be declared (the declaration states the return type and the 
+//input parameters) before it is called by another function.  
 
-pa03.c should contain only the main function and nothing else.  The only two 
-user-defined functions that pa03.c would call in the main function are 
-the two functions declared in answer03.h: DFS_shortest_path_directions and
-Simulate_movement.  
+//pa03.c should contain only the main function and nothing else.  The only two 
+//user-defined functions that pa03.c would call in the main function are 
+//the two functions declared in answer03.h: DFS_shortest_path_directions and
+//Simulate_movement.  
 
 // ~ DFS_shortest_path_directions function ~ //
 
-Two filenames are given to the function: the first one contains the given 
+//Two filenames are given to the function: the first one contains the given 
 maze, and second one is to be written with the directions that guide an 
 agent from a source location to a destination location using a shortest path.
 Both the source and destination are given as the third and fourth parameters
 of the function, respectively.
 
-If the maze file does not exist, you should immediately exit the function
-and return -1.
+//If the maze file does not exist, you should immediately exit the function
+//and return -1.
 
-If the maze file exists, you are to assume that the maze is either generated 
-from amaze.c, the program from Henry Kroll that is given to you in PE07 or 
-expanded from such a maze in PE08.  
+//If the maze file exists, you are to assume that the maze is either generated 
+//from amaze.c, the program from Henry Kroll that is given to you in PE07 or 
+//expanded from such a maze in PE08.  
 
-If you could not read and store a maze into a Maze structure, you should
-exit the function and return -1.
+//If you could not read and store a maze into a Maze structure, you should
+//exit the function and return -1.
 
-If the source and destination locations are invalid (not in the
-range and not a PATH), you should exit the function and return -1. 
+//If the source and destination locations are invalid (not in the
+//range and not a PATH), you should exit the function and return -1. 
 
-When you return -1 from this function because of the 
-aforementioned reasons, the directions file should not be created. 
+//When you return -1 from this function because of the 
+//aforementioned reasons, the directions file should not be created. 
 
-If you cannot open the directions file for writing, you should also 
-return -1.  
+//If you cannot open the directions file for writing, you should also 
+//return -1.  
 
-Beyond this stage, you should not return -1, and the directions file
-has been created.
+//Beyond this stage, you should not return -1, and the directions file
+//has been created.
 
-The function should determine the directions that would allow the agent
-to use only PATH locations to reach the destination location from
-the source location using a shortest path.  Recall that each step taken
-the agent takes the agent up/down the current row occupied by the agent
-or to the left/right of the current column occupied by the agent.  In other 
-words, this function should determine the fewest number of steps 
-for the agent to reach the destination location from the source location.  
-As each step is represented by a character, the steps
-taken by the agent should be output to the directions file.  
+//The function should determine the directions that would allow the agent
+//to use only PATH locations to reach the destination location from
+//the source location using a shortest path.  Recall that each step taken
+//the agent takes the agent up/down the current row occupied by the agent
+//or to the left/right of the current column occupied by the agent.  In other 
+//words, this function should determine the fewest number of steps 
+//for the agent to reach the destination location from the source location.  
+//As each step is represented by a character, the steps
+//taken by the agent should be output to the directions file.  
 
-The agent should not take a step that would let him/her collide with a 
-WALL or go out of bound.  Moreover, for the path taken to be the shortest, the 
-agent should never re-visit a location.
+//The agent should not take a step that would let him/her collide with a 
+//WALL or go out of bound.  Moreover, for the path taken to be the shortest, the 
+//agent should never re-visit a location.
 
 The function should return the number of steps taken by the agent.  
 (Note that the number of steps taken by the agent should be the same as
@@ -169,8 +170,8 @@ the size of the directions file.  If for some reason, you cannot write
 a direction character into the directions file, you should still, at this
 stage, return the number of steps taken by the agent.)
 
-Before you exit the function, you should always close all files you 
-have opened and free all memory you have allocated.
+//Before you exit the function, you should always close all files you 
+//have opened and free all memory you have allocated.
 
 For sample5, integer 22 is returned by the DFS_shortest_path_directions 
 function for source location (0,5) and destination location (12,11).  
@@ -178,124 +179,118 @@ The output directions file is sample5.dir or sample5.dir2.
 
 // ~ Hint on the implementation of DFS_shortest_path_directions ~ //
 
-(You may skip over this and come back to this section after you have
-read the details of the other two functions.  You may also skip over this
-if you want to think of your own solution and do not model your solution
-after the Find_path_from_top_entrance_to_bottom_exit function provided by
-us.)
+//The "DFS" in the name is the acronym for Depth First Search, which
+//is typically used to describe a method based on recursion, because 
+//a recursive function always seeks to call itself until it reaches a
+//terminating condition, when we have the largest depth of the recursion.
 
-The "DFS" in the name is the acronym for Depth First Search, which
-is typically used to describe a method based on recursion, because 
-a recursive function always seeks to call itself until it reaches a
-terminating condition, when we have the largest depth of the recursion.
+//In answer03.c, we provide the code for finding a path from the top left-most
+//entrance to a maze to the bottom right-most exit of the said maze.
+//This function takes in three parameters: the maze file, the directions file,
+//and also a visited maze file that records which locations in the maze have
+//been visited to find the directions.  The 
+//Find_path_from_top_entrance_to_bottom_exit function uses a recursive helper
+//function called Pathfinder_helper to find a path.  
 
-In answer03.c, we provide the code for finding a path from the top left-most
-entrance to a maze to the bottom right-most exit of the said maze.
-This function takes in three parameters: the maze file, the directions file,
-and also a visited maze file that records which locations in the maze have
-been visited to find the directions.  The 
-Find_path_from_top_entrance_to_bottom_exit function uses a recursive helper
-function called Pathfinder_helper to find a path.  
+//In this helper function, we mark the current location VISITED.  If the current 
+//location is the bottom exit, we found a path (this is the terminating
+//condition).  We will explain how we output the path later.
 
-In this helper function, we mark the current location VISITED.  If the current 
-location is the bottom exit, we found a path (this is the terminating
-condition).  We will explain how we output the path later.
+//If we have not reached the destination location, we explore the 'N', 
+//'S', 'E', and 'W' of a current location using recursions.  
+//If the location to the 'N' is within bound and it is a PATH, we visit all 
+//locations reachable from there by recursively calling the helper function.   
+//This is achieved by providing the updated current location (with the curr
+//decremented because we are going 1 row up) and also that the distance
+//from the top entrance is incremented by 1.  If the destination location can be 
+//reached by going north, we print the step taken to be 'N'.  Otherwise, we 
+//proceed to try 'S', 'E', and 'W'.  If none of these give us a path to the 
+//destination location, we return -1.
 
-If we have not reached the destination location, we explore the 'N', 
-'S', 'E', and 'W' of a current location using recursions.  
-If the location to the 'N' is within bound and it is a PATH, we visit all 
-locations reachable from there by recursively calling the helper function.   
-This is achieved by providing the updated current location (with the curr
-decremented because we are going 1 row up) and also that the distance
-from the top entrance is incremented by 1.  If the destination location can be 
-reached by going north, we print the step taken to be 'N'.  Otherwise, we 
-proceed to try 'S', 'E', and 'W'.  If none of these give us a path to the 
-destination location, we return -1.
+//How is the path from the top entrance to the bottom exit printed?  When we 
+//reach the bottom exit (the terminating condition), we know how many steps it 
+//takes to reach there from the top entrance.  Let count be the number of 
+//steps, we first output count number of '.' characters to the directions file.  
+//These '.' characters will be replaced by the actual directions later on.
+//Now, the position index is 1 character after the last invalid direction
+//character '.' in the directions file.  
 
-How is the path from the top entrance to the bottom exit printed?  When we 
-reach the bottom exit (the terminating condition), we know how many steps it 
-takes to reach there from the top entrance.  Let count be the number of 
-steps, we first output count number of '.' characters to the directions file.  
-These '.' characters will be replaced by the actual directions later on.
-Now, the position index is 1 character after the last invalid direction
-character '.' in the directions file.  
+//Therefore, when after a recursive call of the Pathfinder_helper, we know that 
+//the bottom exit has been found, we have to move the position index 1 position 
+//backward, write the actual direction taken to reach the bottom exit.  After 
+//the actual direction taken is output to the directions file, the position 
+//index is again 1 position after the most recent step. We therefore have to 
+//move the position index 1 position backward again.  Now the the position index 
+//of the directions file is again 1 position after the last invalid direction 
+//character '.' in the directions file.
 
-Therefore, when after a recursive call of the Pathfinder_helper, we know that 
-the bottom exit has been found, we have to move the position index 1 position 
-backward, write the actual direction taken to reach the bottom exit.  After 
-the actual direction taken is output to the directions file, the position 
-index is again 1 position after the most recent step. We therefore have to 
-move the position index 1 position backward again.  Now the the position index 
-of the directions file is again 1 position after the last invalid direction 
-character '.' in the directions file.
+//(Note that there are other ways to change how the directons are determined and
+//written to the directions file such that we do not have to perform so many
+//fseek operations.)
 
-(Note that there are other ways to change how the directons are determined and
-written to the directions file such that we do not have to perform so many
-fseek operations.)
+//For the maze in sample5, the top left-most entrance is at (0,5) and the
+//bottom right-most exit is at (12,11).  Using the 
+//Find_path_from_top_entrance_to_bottom_exit function, we found the
+//directions and stored the directions in sample5.tdir.  The locations in
+//the maze that have been explored in order to find this path are stored in
+//sample5.tdir.explored.  To demonstrate how the recursion works, the 
+//computation tree (incomplete) to find the path is shown in sample5.pdf.
+//We start from location (0,5) and a distance from the top entrance of 0.
+//(You may uncomment the first statement of the Pathfinder_helper and use
+//the screen output to help you with tracing through the explored maze.)
 
-For the maze in sample5, the top left-most entrance is at (0,5) and the
-bottom right-most exit is at (12,11).  Using the 
-Find_path_from_top_entrance_to_bottom_exit function, we found the
-directions and stored the directions in sample5.tdir.  The locations in
-the maze that have been explored in order to find this path are stored in
-sample5.tdir.explored.  To demonstrate how the recursion works, the 
-computation tree (incomplete) to find the path is shown in sample5.pdf.
-We start from location (0,5) and a distance from the top entrance of 0.
-(You may uncomment the first statement of the Pathfinder_helper and use
-the screen output to help you with tracing through the explored maze.)
-
-Part (1) of the figure shows the path from (0,5) to (7,7) after 17 steps.  
-We continue from (7,7) and reach location (9,7).  Since we explore
-in the order of 'N', 'S', 'E', and 'W' directions, we call Pathfinder_helper 
-with the 'S' direction because an invalid location is in the 'N' direction
-(that location has been visited).  We would reach (11,5), which would allow 
-us to explore in the 'N', 'S', and 'W', directions (see part (3)), but none 
-of them would allow us to reach the bottom exit.  
+//Part (1) of the figure shows the path from (0,5) to (7,7) after 17 steps.  
+//We continue from (7,7) and reach location (9,7).  Since we explore
+//in the order of 'N', 'S', 'E', and 'W' directions, we call Pathfinder_helper 
+//with the 'S' direction because an invalid location is in the 'N' direction
+//(that location has been visited).  We would reach (11,5), which would allow 
+//us to explore in the 'N', 'S', and 'W', directions (see part (3)), but none 
+//of them would allow us to reach the bottom exit.  
 
 
-The recursion will now find its way back to location (9,7), and we would 
-now explore in the 'E' direction.  When we reach (7,11) (see part (4)) in 
-a distance of 25 steps from the source, we would explore the 'N' direction
-first, which would not lead us to the bottom exit.  We would then explore the
-'E' direction, which allow us to reach the bottom exit.  We return the value 
-38, the number of steps it takes to reach the bottom exit, and along the way 
-of "backtracking" to the caller functions, print the directions to the 
-directions file.
+//The recursion will now find its way back to location (9,7), and we would 
+//now explore in the 'E' direction.  When we reach (7,11) (see part (4)) in 
+//a distance of 25 steps from the source, we would explore the 'N' direction
+//first, which would not lead us to the bottom exit.  We would then explore the
+//'E' direction, which allow us to reach the bottom exit.  We return the value 
+//38, the number of steps it takes to reach the bottom exit, and along the way 
+//of "backtracking" to the caller functions, print the directions to the 
+//directions file.
 
-Note that the Find_path_from_top_entrance_to_bottom_exit function relies
-on many functions that you have written for PE08.  You have to 
-copy those functions over into answer03.c before you can compile the
-given pa03.c and answer03.c.  Please note that these functions you are
-copying over should be declared and defined in answer03.c.  Do not attempt
-to declare these functions in answer03.h, because you are not submitting
-answer03.h. 
+//Note that the Find_path_from_top_entrance_to_bottom_exit function relies
+//on many functions that you have written for PE08.  You have to 
+//copy those functions over into answer03.c before you can compile the
+//given pa03.c and answer03.c.  Please note that these functions you are
+//copying over should be declared and defined in answer03.c.  Do not attempt
+//to declare these functions in answer03.h, because you are not submitting
+//answer03.h. 
 
-Let pa03 be the executable (see later for how the program should be compiled), 
-the command
+//Let pa03 be the executable (see later for how the program should be compiled), 
+//the command
 
 > ./pa03 -t sample5 sample5.tdir sample5.tdir.explored
 38
 
-should print 38 on the screen and output the directions to sample5.tdir,
-and the explored maze to sample5.tdir.explored.  If you have written
-the simulation function and the main function correctly, the command
+//should print 38 on the screen and output the directions to sample5.tdir,
+//and the explored maze to sample5.tdir.explored.  If you have written
+//the simulation function and the main function correctly, the command
 
-> ./pa03 -s sample5 sample5.tdir sample5.tdir.visited 0 5 12 11
-39
+//> ./pa03 -s sample5 sample5.tdir sample5.tdir.visited 0 5 12 11
+//39
 
-should print 39 on the screen and output the visited maze to 
-sample5.tdir.visited.
+//should print 39 on the screen and output the visited maze to 
+//sample5.tdir.visited.
 
-Note also that Pathfinder_helper is also declared as a static function.
-This means that this function can be used by functions in answer03.c.
-It cannot be used by functions in other files.  The advantage of declaring
-a function to be static is that you do not have to worry that the function
-has a name that would clash with functions declared and defined in other
-files.
+//Note also that Pathfinder_helper is also declared as a static function.
+//This means that this function can be used by functions in answer03.c.
+//It cannot be used by functions in other files.  The advantage of declaring
+//a function to be static is that you do not have to worry that the function
+//has a name that would clash with functions declared and defined in other
+//files.
 
-You can try to change the order in which the neighboring locations of the
-current location are explored.  You may get different directions, different
-length of the path, and also different explored maze.
+//You can try to change the order in which the neighboring locations of the
+//current location are explored.  You may get different directions, different
+//length of the path, and also different explored maze.
 
 How can you modify the Find_path_from_top_entrance_to_bottom_exit function 
 for the implementation of your DFS_shortest_path_directions?  First, you
