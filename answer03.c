@@ -258,7 +258,7 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   //openning the file
   fptr_mazefile = fopen(mazefile,"r");
   if(fptr_mazefile == NULL){
-    fprintf(stderr,"Can't open mazefile for reading");
+    fprintf(stderr,"Can't open mazefile for reading ");
     return -1;
   }
   
@@ -266,12 +266,12 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   //Then putting the file into the array
   
   Find_maze_dimensions(fptr_mazefile, &nrow, &ncol);
-  maze_array_input = Allocate_maze_space(nrow, ncol);
-  if(maze_array_input == NULL){
+  //maze_array_input = Allocate_maze_space(nrow, ncol);
+  /*if(maze_array_input == NULL){
     fclose(fptr_mazefile);
     fprintf(stderr,"Can't allocate enough memory for maze");
     return -1;
-  }
+  }*/
   maze_array_input = Read_maze_from_2Dfile(fptr_mazefile);
 
   //openning dierectional file
@@ -279,7 +279,7 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   if(fptr_directionfile == NULL){
     fclose(fptr_mazefile);
     Deallocate_maze_space(maze_array_input);
-    fprintf(stderr,"Can't open mazefile for reading");
+    fprintf(stderr,"Can't open mazefile for reading ");
     return -1;
   }
   

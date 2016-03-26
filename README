@@ -439,7 +439,7 @@ If not, the executable should exit with EXIT_FAILURE.
 
 //For example, when the following command is issued
 
-//> ./pa03 -s mazefile directionsfile visitedfile 5 0 10 101
+> ./pa03 -s mazefile directionsfile visitedfile 5 0 10 101
 
 //where 5 and 0 are the row and column coordinates
 //of the source location, respectively, and 10 and 101 are the
@@ -452,12 +452,12 @@ If not, the executable should exit with EXIT_FAILURE.
 //The following commands are used to produced sample5.dir.visited, 
 //sample5.dir2.visited, sample5.tdir.visited, respectively:
 
-//> ./pa03 -s sample5 sample5.tdir sample5.tdir.visited 0 5 12 11
-//39
-//> ./pa03 -s sample5 sample5.dir sample5.dir.visited 0 5 12 11
-//23
-//> ./pa03 -s sample5 sample5.dir2 sample5.dir2.visited 0 5 12 11
-//23
+> ./pa03 -s sample5 sample5.tdir sample5.tdir.visited 0 5 12 11
+39
+> ./pa03 -s sample5 sample5.dir sample5.dir.visited 0 5 12 11
+23
+> ./pa03 -s sample5 sample5.dir2 sample5.dir2.visited 0 5 12 11
+23
 
 //The screen output are 39, 23, and 23, respectively.
 
