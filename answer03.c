@@ -301,14 +301,14 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   fseek(fptr_directionfile,0,SEEK_SET);
   cur_row = source.row;
   cur_col = source.col;
-  maze_array_input[cur_row][cur_col] = VISITED;   
+  maze_array_input->maze_array[cur_row][cur_col] = VISITED;   
   //north (up), south (down), east (right), west (left)
-  while((ch != getc(fptr_directionfile)) != EOF){
+  while((ch = getc(fptr_directionfile)) != EOF){
      if(ch == 'N'){
        cur_row++;
 
        if( nrow <= cur_row || ncol <= cur_col || (cur_row < 0) || (cur_col < 0)){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -316,8 +316,8 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
 
-       if(maze_array_input[cur_row][cur_col] = WALL){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+       if(maze_array_input->maze_array[cur_row][cur_col] == WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -325,13 +325,13 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
        
-        maze_array_input[cur_row][cur_col] = VISITED; 
+        maze_array_input->maze_array[cur_row][cur_col] = VISITED; 
 
      } else if(ch == 'S'){
        cur_row--;
 
-       if( nrow <= cur_row || ncol <= cur_col) || (cur_row < 0) || (cur_col < 0){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+       if( (nrow <= cur_row) || (ncol <= cur_col) || (cur_row < 0) || (cur_col < 0)){
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -339,8 +339,8 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
 
-       if(maze_array_input[cur_row][cur_col] = WALL){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+       if(maze_array_input->maze_array[cur_row][cur_col] == WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -348,13 +348,13 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
 
-        maze_array_input[cur_row][cur_col] = VISITED; 
+        maze_array_input->maze_array[cur_row][cur_col] = VISITED; 
      
      }else if(ch == 'E'){
        cur_col++;
        
        if( nrow <= cur_row || ncol <= cur_col || (cur_row < 0) || (cur_col < 0)){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -362,8 +362,8 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
      
-       if(maze_array_input[cur_row][cur_col] = WALL){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+       if(maze_array_input->maze_array[cur_row][cur_col] == WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -371,13 +371,13 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
 
-        maze_array_input[cur_row][cur_col] = VISITED; 
+        maze_array_input->maze_array[cur_row][cur_col] = VISITED; 
      
      }else if(ch == 'W'){
        cur_col--;
 
        if( nrow <= cur_row || ncol <= cur_col || (cur_row < 0) || (cur_col < 0)){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -385,8 +385,8 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
      
-       if(maze_array_input[cur_row][cur_col] = WALL){
-         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+       if(maze_array_input->maze_array[cur_row][cur_col] == WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_array_input);
          fclose(fptr_directionfile);
          fclose(fptr_mazefile);
          Deallocate_maze_space(maze_array_input);
@@ -394,10 +394,10 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
          return -1;
        }
 
-        maze_array_input[cur_row][cur_col] = VISITED; 
+        maze_array_input->maze_array[cur_row][cur_col] = VISITED; 
 
      }else{
-       Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+       Write_maze_to_2Dfile(visitedfile,maze_array_input);
        fclose(fptr_directionfile);
        fclose(fptr_mazefile);
        Deallocate_maze_space(maze_array_input);
@@ -408,14 +408,14 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   }
   
   if(cur_row == destination.row && cur_col == destination.col){
-    Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+    Write_maze_to_2Dfile(visitedfile,maze_array_input);
     fclose(fptr_directionfile);
     fclose(fptr_mazefile);
     Deallocate_maze_space(maze_array_input);
     return loc_visited;
   }else{
     fprintf(stderr,"We haven't reached the destination");
-    Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+    Write_maze_to_2Dfile(visitedfile,maze_array_input);
     fclose(fptr_directionfile);
     fclose(fptr_mazefile);
     Deallocate_maze_space(maze_array_input);
@@ -530,7 +530,7 @@ int Write_maze_to_2Dfile(char *filename, const Maze *maze)
   FILE* outputFILE;
   int printed_char;
   outputFILE = fopen(filename, "w");
-  if(outputFIle == NULL){
+  if(outputFILE == NULL){
     fprintf(stderr,"There is a problem opening the visitedfile");
     return -1;
   }
@@ -538,12 +538,15 @@ int Write_maze_to_2Dfile(char *filename, const Maze *maze)
   int j;
   for(i = 0; i < maze->nrow; i++){
     for(j = 0; j < (maze->ncol+1); j++){
-      if(maze->ncol != maze->ncol)
+      if(maze->ncol != maze->ncol){
         if((printed_char = fprintf(outputFILE,"%c",maze->maze_array[i][j])) != 1){
           fprintf(stderr,"Wrong number(%d) of chars printed in visitedfile",printed_char);
-          if(printef_char == 0)
+          if(printed_char == 0){
+            fclose(outputFILE);
             return -1;
+          }
         }
+      }
       else
         fprintf(outputFILE,"\n");
       wordCount++;
