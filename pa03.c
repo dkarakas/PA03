@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include "answer03.h"
 
 // declaration of a function defined answer03.c
@@ -38,15 +39,52 @@ int main(int argc, char* argv[])
    {
        return EXIT_FAILURE;
    }
+
   
    if (strcmp("-t", argv[1]) == 0) {
       if (argc != 5) { 
          return EXIT_FAILURE; 
       }
-      int step_count = Find_path_from_top_entrance_to_bottom_exit(argv[2], argv[3], argv[4]);
+      int step_count = Find_path_from_top_entrance_to_bottom_exit(argv[2], argv[3]
+									, argv[4]);
       printf("%d\n", step_count); 
-   } else {
+
+   } else if(strcmp("-s", argv[1]) == 0){ 
+     if (argc != 9)
+        return EXIT_FAILURE; 
+     Coord source;
+     Coord destination;
+     errno = 0;
+     char * endptr; 
+     source.row = strtol(argv[5],&endptr,10);
+     if(*endptr != '\0'|| (errno != 0 && source.row ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+     source.col = strtol(argv[6],&endptr,10);
+     if(*endptr != '\0' || (errno != 0 && source.col ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+     destination.row= strtol(argv[7],&endptr,10);
+     if(*endptr != '\0'|| (errno != 0 && destination.row ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+     destination.col = strtol(argv[8],&endptr,10);
+     if(*endptr != '\0'|| (errno != 0 && destination.col ==0) ){
+       fprintf(stderr,"Invalid charaters %s",endptr);
+       return EXIT_FAILURE;
+     }
+ 
+     int step_count = Simulate_movement(argv[2],argv[3], argv[4],
+                                        source, destination);
+     printf("%d\n", step_count); 
+   } else if(strcmp("-m", argv[2]) ==0){}
+
+    else{
       return EXIT_FAILURE;
    }
-   return EXIT_SUCCESS;
+
+  return EXIT_SUCCESS;    
 }

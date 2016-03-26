@@ -293,7 +293,7 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
     fclose(fptr_directionfile);
     fclose(fptr_mazefile);
     Deallocate_maze_space(maze_array_input);
-    fprintf(stderr,"Invalid source or destination");
+    fprintf(stderr,"Invalid source or destination\n");
     return -1;
   }
  
