@@ -375,41 +375,41 @@ to the function.  They are the source location and the destination location.
 //When you return -1 from the function because of the aforemented reason,
 //the output file for the visited maze (i.e., visitedfile) should not be created.
 
-The following applies when the maze file, directions file exist,
-and the source and destination locations are valid.  
+//The following applies when the maze file, directions file exist,
+//and the source and destination locations are valid.  
 
-At the beginning, the agent is positioned at the source location.
-That location will always be visited regardless of the contents of the 
-directions file.
+//At the beginning, the agent is positioned at the source location.
+//That location will always be visited regardless of the contents of the 
+//directions file.
 
-Depending on the direction character read from the directions file, the 
-agent moves North or South by a row, or East or West by a column.   The 
-simulation terminates when
+//Depending on the direction character read from the directions file, the 
+//agent moves North or South by a row, or East or West by a column.   The 
+//simulation terminates when
 
-(i) you reach the end of the directions file:  If the agent is at the 
-destination location, you output the visited maze into the third file, with 
-each location visited by the agent now represented by '.'.  You return 
-the number of locations that have been visited.
+//(i) you reach the end of the directions file:  If the agent is at the 
+//destination location, you output the visited maze into the third file, with 
+//each location visited by the agent now represented by '.'.  You return 
+//the number of locations that have been visited.
 
-(ii) you reach the end of the direction file:  If the agent is not at
-the destination location, you still output the visited maze into the third 
-file, with each location visited by the agent now represented by '.'.  
-However, you return -1.
+//(ii) you reach the end of the direction file:  If the agent is not at
+//the destination location, you still output the visited maze into the third 
+//file, with each location visited by the agent now represented by '.'.  
+//However, you return -1.
 
-(iii) you encounter an illegal direction: (a) the character is not one of the
-'N', 'S', 'E', 'W';  (b) the direction will take the agent out of bound; or
-(c) the direction will take the agent to a location with WALL.  You output the 
-maze that was visited by all legal directions so far, and return -1.  
+//(iii) you encounter an illegal direction: (a) the character is not one of the
+//'N', 'S', 'E', 'W';  (b) the direction will take the agent out of bound; or
+//(c) the direction will take the agent to a location with WALL.  You output the 
+//maze that was visited by all legal directions so far, and return -1.  
 
-If for whatever reason, you cannot print the visited maze to the
-visitedfile, you should return -1.
+//If for whatever reason, you cannot print the visited maze to the
+//visitedfile, you should return -1.
 
-The only time you return a number other than -1 is when the directions
-file allows the agent to move the source to destination, and the visited maze
-could be printed to the visitedfile.
+//The only time you return a number other than -1 is when the directions
+//file allows the agent to move the source to destination, and the visited maze
+//could be printed to the visitedfile.
 
-Before you exit the function, you should always close all files you 
-have opened and free all memory you have allocated.
+//Before you exit the function, you should always close all files you 
+//have opened and free all memory you have allocated.
 
 For sample5 and directions file sample5.dir (sample5.dir2), integer 23 
 is returned by the Simulate_movement  function.  The file storing the

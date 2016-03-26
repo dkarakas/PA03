@@ -245,10 +245,13 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   FILE *fptr_directionfile;
   int nrow, ncol;
   Maze *maze_array_input;
+  char ch;
+  int cur_row, cur_col;
+  int loc_visited = 1;
 
   //ACTUAL CODE
-  if(mazefile == NULL || directionfile == NULL){
-    fprintf(stderr,"Either mazefile or direction file was not given");
+  if(mazefile == NULL || directionfile == NULL || visitedfile == NULL){
+    fprintf(stderr,"Either mazefile or directionfile or visitedfile was not given");
     return -1;
   }
 
@@ -269,7 +272,7 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
     fprintf(stderr,"Can't allocate enough memory for maze");
     return -1;
   }
-  Write_maze_to_2Dfile(fptr_mazefile,maze_array_input);
+  maze_array_input = Read_maze_from_2Dfile(fptr_mazefile);
 
   //openning dierectional file
   fptr_directionfile = fopen(directionfile,"r");
@@ -283,6 +286,8 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   //Checking if source or destination are valid.
   if( nrow <= source.row || ncol <= source.col ||
       nrow <= destination.row || ncol <= destination.col ||
+      source.row < 0 || source.col < 0 ||
+      destination.row < 0 || destination.col<0 ||
       (get_loc_type(fptr_mazefile, source.row, source.col) != PATH) ||
       (get_loc_type(fptr_mazefile, destination.row, destination.col) != PATH)){
     fclose(fptr_directionfile);
@@ -291,7 +296,131 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
     fprintf(stderr,"Invalid source or destination");
     return -1;
   }
+ 
+  //visiting locations 
+  fseek(fptr_directionfile,0,SEEK_SET);
+  cur_row = source.row;
+  cur_col = source.col;
+  maze_array_input[cur_row][cur_col] = VISITED;   
+  //north (up), south (down), east (right), west (left)
+  while((ch != getc(fptr_directionfile)) != EOF){
+     if(ch == 'N'){
+       cur_row++;
 
+       if( nrow <= cur_row || ncol <= cur_col || (cur_row < 0) || (cur_col < 0)){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"Direction file brought us out of bounds");
+         return -1;
+       }
+
+       if(maze_array_input[cur_row][cur_col] = WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"We hit wall!");
+         return -1;
+       }
+       
+        maze_array_input[cur_row][cur_col] = VISITED; 
+
+     } else if(ch == 'S'){
+       cur_row--;
+
+       if( nrow <= cur_row || ncol <= cur_col) || (cur_row < 0) || (cur_col < 0){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"Direction file brought us out of bounds");
+         return -1;
+       }
+
+       if(maze_array_input[cur_row][cur_col] = WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"We hit wall!");
+         return -1;
+       }
+
+        maze_array_input[cur_row][cur_col] = VISITED; 
+     
+     }else if(ch == 'E'){
+       cur_col++;
+       
+       if( nrow <= cur_row || ncol <= cur_col || (cur_row < 0) || (cur_col < 0)){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"Direction file brought us out of bounds");
+         return -1;
+       }
+     
+       if(maze_array_input[cur_row][cur_col] = WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"We hit wall!");
+         return -1;
+       }
+
+        maze_array_input[cur_row][cur_col] = VISITED; 
+     
+     }else if(ch == 'W'){
+       cur_col--;
+
+       if( nrow <= cur_row || ncol <= cur_col || (cur_row < 0) || (cur_col < 0)){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"Direction file brought us out of bounds");
+         return -1;
+       }
+     
+       if(maze_array_input[cur_row][cur_col] = WALL){
+         Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+         fclose(fptr_directionfile);
+         fclose(fptr_mazefile);
+         Deallocate_maze_space(maze_array_input);
+         fprintf(stderr,"We hit wall!");
+         return -1;
+       }
+
+        maze_array_input[cur_row][cur_col] = VISITED; 
+
+     }else{
+       Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+       fclose(fptr_directionfile);
+       fclose(fptr_mazefile);
+       Deallocate_maze_space(maze_array_input);
+       fprintf(stderr,"Reached unvalid next location symbol in direction file");
+       return -1;
+     }
+    loc_visited++;
+  }
+  
+  if(cur_row == destination.row && cur_col == destination.col){
+    Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+    fclose(fptr_directionfile);
+    fclose(fptr_mazefile);
+    Deallocate_maze_space(maze_array_input);
+    return loc_visited;
+  }else{
+    fprintf(stderr,"We haven't reached the destination");
+    Write_maze_to_2Dfile(visitedfile,maze_arry_input);
+    fclose(fptr_directionfile);
+    fclose(fptr_mazefile);
+    Deallocate_maze_space(maze_array_input);
+    return -1;
+  }
 }
 
 
@@ -399,13 +528,22 @@ int Write_maze_to_2Dfile(char *filename, const Maze *maze)
 {
   int wordCount = 0;
   FILE* outputFILE;
+  int printed_char;
   outputFILE = fopen(filename, "w");
+  if(outputFIle == NULL){
+    fprintf(stderr,"There is a problem opening the visitedfile");
+    return -1;
+  }
   int i;
   int j;
   for(i = 0; i < maze->nrow; i++){
     for(j = 0; j < (maze->ncol+1); j++){
       if(maze->ncol != maze->ncol)
-        fprintf(outputFILE,"%c",maze->maze_array[i][j]);
+        if((printed_char = fprintf(outputFILE,"%c",maze->maze_array[i][j])) != 1){
+          fprintf(stderr,"Wrong number(%d) of chars printed in visitedfile",printed_char);
+          if(printef_char == 0)
+            return -1;
+        }
       else
         fprintf(outputFILE,"\n");
       wordCount++;
