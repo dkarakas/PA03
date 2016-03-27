@@ -39,68 +39,57 @@ static int Is_path(Maze *maze, int row, int col)
    return 0;
 }
 
-/*static int Pathfinder_helper_dimcho(Maze *maze, int curr, int curc, int endr, int endc,
+static void Pathfinder_helper_dimcho(Maze *maze, int curr, int curc, int endr, int endc,
                             int count, nodePath* shortest_path, nodePath* tmp_shortest_path, int nrow, int ncol, int* cur_count,char rem)
 {
-   // you may uncomment this and use the output here to trace the function
-   // with sample5.pdf
    maze->maze_array[curr][curc] = VISITED;
-   fprintf(stderr,"(%d, %d, %c), %d\n", curr, curc, rem, count);
+   fprintf(stderr,"(%d, %d, %d), %d\n", (curr+1), (curc+1), *cur_count, count);
    if ((curr == endr) && (curc == endc)) { // reach the destination 
       if(*cur_count >  count){
+        fprintf(stderr,"NEW MORE EFFICIENT PATH FOUND ");
         *cur_count = count;
-        printf("ccsacdsadasdsa");
-        //shortest_path = ln_copy(tmp_shortest_path);
+        ln_path_destroy(shortest_path);
+        shortest_path = ln_copy(tmp_shortest_path);
       } 
-      return count;
+      tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
-if(count==100)
-  exit(1);
-   int found;
+
+//if(count == 40)
+//  exit(10);
    if(curr < 0 || curc < 0 || endr < 0 || endc < 0 ||
       curr >= nrow || curc >=ncol || endr >= nrow || endc >= ncol){
-      fprintf(stderr,"chec1------ (%d %d) (%d %d)||", curr, curc,endr,endc);
-      tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
-     return -1;
+      fprintf(stderr,"RECHED OUT OF BOUNDS\n");
    }
    if (Is_path(maze, curr-1, curc) && rem != 'N') {
-      fprintf(stderr,"chec%c in N|",rem);
-      found = Pathfinder_helper_dimcho(maze, curr-1, curc, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'S');
-      fprintf(stderr,"found %d|\n",found);
-      if (found != -1) {
-         tmp_shortest_path = ln_insert(&tmp_shortest_path, 'N');
-         return found;
-      }
+      tmp_shortest_path = ln_insert(&tmp_shortest_path, 'N');
+      Pathfinder_helper_dimcho(maze, curr-1, curc, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'S');
+      tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
    if (Is_path(maze, curr+1, curc) && rem != 'S') {
-      fprintf(stderr,"chec%c in S|\n",rem);
-      found = Pathfinder_helper_dimcho(maze, curr+1, curc, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'N');
-      fprintf(stderr,"found %d|\n",found);
-      if (found != -1) {
-         tmp_shortest_path = ln_insert(&tmp_shortest_path, 'S');
-         return found;
-      }
+      tmp_shortest_path = ln_insert(&tmp_shortest_path, 'S');
+      Pathfinder_helper_dimcho(maze, curr+1, curc, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'N');
+      tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
    if (Is_path(maze, curr, curc+1) && rem != 'E') {
-      found = Pathfinder_helper_dimcho(maze, curr, curc+1, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'W');
-      fprintf(stderr,"found %d|\n",found);
-      if (found != -1) {
-         tmp_shortest_path = ln_insert(&tmp_shortest_path, 'E');
-         return found;
-      }
+      tmp_shortest_path = ln_insert(&tmp_shortest_path, 'E');
+      Pathfinder_helper_dimcho(maze, curr, curc+1, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'W');
+      tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
    if (Is_path(maze, curr, curc-1) && rem != 'W') {
-      found = Pathfinder_helper_dimcho(maze, curr, curc-1, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'E');
-      fprintf(stderr,"found %d|\n",found);
-      if (found != -1) {
-         tmp_shortest_path = ln_insert(&tmp_shortest_path, 'W');
-         return found;
-      }
+      tmp_shortest_path = ln_insert(&tmp_shortest_path, 'W');
+      Pathfinder_helper_dimcho(maze, curr, curc-1, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'E');
+      tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
-   maze->maze_array[curr][curc] = VISITED;
-   tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
-   return -1;
-}*/
+   printf("   ");   
+   nodePath* print= shortest_path;
+   while (print != NULL) {
+      printf("%c->", print->ch);
+      print = print->nextChar;
+   }
+   printf("NULL\n");
+   
+   maze->maze_array[curr][curc] = PATH;
+}
 
 /* given a maze, current row (curr),                                     */
 /* current column (curc), destination row (drow), destination col (dcol) */
@@ -283,8 +272,8 @@ int DFS_shortest_path_directions(char *mazefile, char *directionfile,
   
   nodePath *shortest_path;
   nodePath *tmp_shortest_path;
-  //int counter = 0;
-  //int cur_count = 0;
+  int counter = 0;
+  int cur_count = 0;
   int loc_visited = 1;
 
   //ACTUAL CODE
@@ -335,40 +324,19 @@ int DFS_shortest_path_directions(char *mazefile, char *directionfile,
   
   shortest_path = ln_construct('Q');
   tmp_shortest_path = ln_construct('Q');
-  tmp_shortest_path = ln_insert(&tmp_shortest_path, 'D');
-  tmp_shortest_path = ln_insert(&tmp_shortest_path, 'I');
-  tmp_shortest_path = ln_insert(&tmp_shortest_path, 'M');
-  tmp_shortest_path = ln_insert(&tmp_shortest_path, 'S');
-  nodePath * print = tmp_shortest_path;
-  ln_path_destroy(shortest_path);
-  shortest_path =ln_copy(tmp_shortest_path);
-  while (print!= NULL) {
-      printf("%c->", print->ch);
-      print = print->nextChar;
-   }
-   printf("NULL\n");
-print = shortest_path;
-  while (print!= NULL) {
-      printf("%c->", print->ch);
-      print = print->nextChar;
-   }
-   printf("NULL\n");
-   
-  shortest_path = rmv_one_step(&shortest_path);
-  print = shortest_path;
-  while (print!= NULL) {
+
+  Pathfinder_helper_dimcho(maze_array_input, source.row, source.col, destination.row, destination.col, counter, shortest_path, tmp_shortest_path, nrow, ncol, &cur_count,'I');
+  /*Write_maze_to_2Dfile(directionfile, maze_array_input);*/
+  nodePath* print= shortest_path;
+   while (print != NULL) {
       printf("%c->", print->ch);
       print = print->nextChar;
    }
    printf("NULL\n");
 
+
   ln_path_destroy(shortest_path);
   ln_path_destroy(tmp_shortest_path);
-printf("check");
-  /*loc_visited = Pathfinder_helper_dimcho(maze_array_input, source.row, source.col, destination.row, destination.col, counter, shortest_path, tmp_shortest_path, nrow, ncol, &cur_count,'I');
-  ln_path_destroy(shortest_path);
-  ln_path_destroy(tmp_shortest_path);
-  Write_maze_to_2Dfile(directionfile, maze_array_input);*/
   fclose(fptr_directionfile);
   fclose(fptr_mazefile);
   Deallocate_maze_space(maze_array_input);
@@ -765,7 +733,6 @@ nodePath *rmv_one_step(nodePath **list){
   *list = removed_char->nextChar;
   removed_char->nextChar=NULL;
   ln_path_destroy(removed_char);    
-fprintf(stderr,"checllllll");
   return *list;
 }
 
