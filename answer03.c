@@ -48,8 +48,19 @@ static void Pathfinder_helper_dimcho(Maze *maze, int curr, int curc, int endr, i
       if(*cur_count >  count){
         fprintf(stderr,"NEW MORE EFFICIENT PATH FOUND ");
         *cur_count = count;
+
+   printf("\n\n\n\n\n\n\n  %d ", *cur_count);   
+   printf("   ");   
+   nodePath* print= tmp_shortest_path;
+   while (print != NULL) {
+      printf("%c->", print->ch);
+      print = print->nextChar;
+   }
+   printf("NULL\n");
+   
         ln_path_destroy(shortest_path);
         shortest_path = ln_copy(tmp_shortest_path);
+
       } 
       tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
@@ -80,13 +91,13 @@ static void Pathfinder_helper_dimcho(Maze *maze, int curr, int curc, int endr, i
       Pathfinder_helper_dimcho(maze, curr, curc-1, endr, endc, count+1, shortest_path,tmp_shortest_path,nrow,ncol,cur_count,'E');
       tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
-   printf("   ");   
-   nodePath* print= shortest_path;
-   while (print != NULL) {
-      printf("%c->", print->ch);
-      print = print->nextChar;
-   }
-   printf("NULL\n");
+//   printf("   ");   
+//   nodePath* print= shortest_path;
+//   while (print != NULL) {
+//      printf("%c->", print->ch);
+//      print = print->nextChar;
+//   }
+//   printf("NULL\n");
    
    maze->maze_array[curr][curc] = PATH;
 }
@@ -272,7 +283,7 @@ int DFS_shortest_path_directions(char *mazefile, char *directionfile,
   
   nodePath *shortest_path;
   nodePath *tmp_shortest_path;
-  int counter = 0;
+  int counter = 32767;
   int cur_count = 0;
   int loc_visited = 1;
 
@@ -327,11 +338,11 @@ int DFS_shortest_path_directions(char *mazefile, char *directionfile,
 
   Pathfinder_helper_dimcho(maze_array_input, source.row, source.col, destination.row, destination.col, counter, shortest_path, tmp_shortest_path, nrow, ncol, &cur_count,'I');
   /*Write_maze_to_2Dfile(directionfile, maze_array_input);*/
-  nodePath* print= shortest_path;
-   while (print != NULL) {
-      printf("%c->", print->ch);
-      print = print->nextChar;
-   }
+//  nodePath* print= shortest_path;
+//   while (print != NULL) {
+//      printf("%c->", print->ch);
+//      print = print->nextChar;
+//   }
    printf("NULL\n");
 
 
