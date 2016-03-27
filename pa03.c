@@ -108,8 +108,7 @@ int main(int argc, char* argv[])
        return EXIT_FAILURE;
      }
  
-
-      int shortest_path = DFS_shortest_path_directions(argv[1],argv[2],source,destination);
+     int shortest_path = DFS_shortest_path_directions(argv[2],argv[3],source,destination);
  
       printf("%d\n", shortest_path); 
     }else{
