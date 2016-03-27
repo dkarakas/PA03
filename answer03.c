@@ -322,13 +322,13 @@ int DFS_shortest_path_directions(char *mazefile, char *directionfile,
   tmp_shortest_path = ln_construct('Q');
 
   Pathfinder_helper_dimcho(maze_array_input, source.row, source.col, destination.row, destination.col, counter, &shortest_path, tmp_shortest_path, nrow, ncol, &cur_count,'I');
+  loc_visited = 0;
   nodePath* print= shortest_path;
-  loc_visited=0;
    while (print != NULL){
     if(print->ch != 'Q'){
       fprintf(fptr_directionfile,"%c", print->ch);
       loc_visited++;
-      }
+    }
       print = print->nextChar;
    }
 
@@ -510,7 +510,7 @@ int Simulate_movement(char *mazefile, char *directionfile, char *visitedfile,
   }
   
   if(cur_row == destination.row && cur_col == destination.col){
-//         fprintf(stderr,"are %c the %c end %c \n",maze_array_input->maze_array[0][0],maze_array_input->maze_array[0][1],maze_array_input->maze_array[1][5]);
+   //      fprintf(stderr,"are %c the %c end %c \n",maze_array_input->maze_array[0][0],maze_array_input->maze_array[0][1],maze_array_input->maze_array[1][5]);
     Write_maze_to_2Dfile(visitedfile,maze_array_input);
     fclose(fptr_directionfile);
     fclose(fptr_mazefile);
