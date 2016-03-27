@@ -283,8 +283,8 @@ int DFS_shortest_path_directions(char *mazefile, char *directionfile,
   
   nodePath *shortest_path;
   nodePath *tmp_shortest_path;
-  int counter = 32767;
-  int cur_count = 0;
+  int counter = 0;
+  int cur_count = 32767;
   int loc_visited = 1;
 
   //ACTUAL CODE
