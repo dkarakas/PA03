@@ -48,19 +48,20 @@ static void Pathfinder_helper_dimcho(Maze *maze, int curr, int curc, int endr, i
       if(*cur_count >  count){
         fprintf(stderr,"NEW MORE EFFICIENT PATH FOUND ");
         *cur_count = count;
-
+  
+        ln_path_destroy(shortest_path);
+        shortest_path = ln_copy(tmp_shortest_path);
 //   printf("\n\n\n\n\n\n\n  %d ", *cur_count);   
 //   printf("   ");   
-//   nodePath* print= tmp_shortest_path;
+//   nodePath* print= shortest_path;
 //   while (print != NULL) {
 //      printf("%c->", print->ch);
 //      print = print->nextChar;
 //   }
 //   printf("NULL\n");
-   
-        ln_path_destroy(shortest_path);
-        shortest_path = ln_copy(tmp_shortest_path);
-
+//if(*cur_count==22)
+//  exit(30);
+ 
       } 
       tmp_shortest_path = rmv_one_step(&tmp_shortest_path);
    }
